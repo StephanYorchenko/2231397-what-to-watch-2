@@ -1,8 +1,11 @@
 import { Movie } from '../../types/main-page.types';
 import { FC } from 'react';
-import {Link, useParams} from 'react-router-dom';
-import {getMovieById, getRatingDescription, getReviewLink} from '../../utils/movie';
+import { Link, useParams } from 'react-router-dom';
+import { getMovieById, getReviewLink } from '../../utils/movie';
 import MovieList from '../../components/movie-list/movie-list';
+import NotFoundPage from '../not-found-page/not-found-page';
+import {Tabs} from '../../components/tabs/tabs';
+import { REVIEW_LIST } from '../../mocks/film';
 
 type Props = {
   allMovies: Movie[];
@@ -12,6 +15,10 @@ const MoviePage: FC<Props> = (props: Props) => {
   const { allMovies } = props;
   const { id } = useParams();
   const movie = getMovieById(id ?? '');
+
+  if (!movie) {
+    return <NotFoundPage />;
+  }
 
   return (
     <>
@@ -75,43 +82,15 @@ const MoviePage: FC<Props> = (props: Props) => {
         <div className="film-card__wrap film-card__translate-top">
           <div className="film-card__info">
             <div className="film-card__poster film-card__poster--big">
-              <img src="img/the-grand-budapest-hotel-poster.jpg" alt="The Grand Budapest Hotel poster" width="218"
+              <img
+                src={movie.posterUrl}
+                alt={movie.title}
+                width="218"
                 height="327"
               />
             </div>
 
-            <div className="film-card__desc">
-              <nav className="film-nav film-card__nav">
-                <ul className="film-nav__list">
-                  <li className="film-nav__item film-nav__item--active">
-                    <a href="/" className="film-nav__link">Overview</a>
-                  </li>
-                  <li className="film-nav__item">
-                    <a href="/" className="film-nav__link">Details</a>
-                  </li>
-                </ul>
-              </nav>
-
-              <div className="film-rating">
-                <div className="film-rating__score">{movie?.rating}</div>
-                <p className="film-rating__meta">
-                  <span className="film-rating__level">{getRatingDescription(Number(movie?.rating))}</span>
-                  <span className="film-rating__count">{movie?.votesCount}</span>
-                </p>
-              </div>
-
-              <div className="film-card__text">
-                <p>{movie?.description}</p>
-
-                <p className="film-card__director"><strong>Director: {movie?.director}</strong></p>
-
-                <p className="film-card__starring">
-                  <strong>
-                    Starring: {movie?.actors.join(', ')} and other
-                  </strong>
-                </p>
-              </div>
-            </div>
+            <Tabs movie={movie} reviews={REVIEW_LIST}/>
           </div>
         </div>
       </section>
