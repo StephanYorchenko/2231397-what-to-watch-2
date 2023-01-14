@@ -1,9 +1,9 @@
-import { FC } from 'react';
+import {FC, useMemo, useState} from 'react';
 import { Movie } from '../../types/main-page.types';
 import MovieList from '../../components/movie-list/movie-list';
 import { useAppSelector } from '../../hooks/store.hooks';
 import GenresPicker from '../../components/genre-picker/genre-picker';
-import { GENRE_ARRAY } from './const';
+import {GENRE_ARRAY, PAGINATION_STEP} from './const';
 
 type Props = {
   movie: Movie;
@@ -15,6 +15,15 @@ const MainPage: FC<Props> = (props) => {
   } = props;
 
   const { movies: allMovies } = useAppSelector((state) => state);
+  const [paginationCursor, setPaginationCursor] = useState<number>(PAGINATION_STEP);
+
+  const resetPagination = () => setPaginationCursor(PAGINATION_STEP);
+  const loadAdditionalItems = () => setPaginationCursor(
+    (v) => Math.max(v + PAGINATION_STEP, allMovies.length)
+  );
+
+  const movies = useMemo(() => allMovies.slice(0, paginationCursor), [paginationCursor, allMovies]);
+  const canLoadAdditionalItems = paginationCursor < allMovies.length;
 
   return (
     <>
@@ -115,13 +124,13 @@ const MainPage: FC<Props> = (props) => {
         <section className="catalog">
           <h2 className="catalog__title visually-hidden">Catalog</h2>
 
-          <GenresPicker genres={GENRE_ARRAY}/>
+          <GenresPicker genres={GENRE_ARRAY} resetPagination={resetPagination} />
 
-          <MovieList movies={allMovies}/>
-
-          <div className="catalog__more">
-            <button className="catalog__button" type="button">Show more</button>
-          </div>
+          <MovieList
+            movies={movies}
+            loadAdditionalItems={loadAdditionalItems}
+            canLoadAdditionalItems={canLoadAdditionalItems}
+          />
         </section>
 
         <footer className="page-footer">

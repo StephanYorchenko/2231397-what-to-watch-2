@@ -1,5 +1,5 @@
-import {Genre, Movie} from '../types/main-page.types';
-import {Review} from '../types/review.types';
+import { Genre, Movie } from '../types/main-page.types';
+import { Review } from '../types/review.types';
 
 export const MOVIE_LIST: Movie[] = [
   {
