@@ -1,5 +1,7 @@
 import { FC } from 'react';
-import {Movie} from '../../types/main-page.types';
+import { Movie } from '../../types/main-page.types';
+import { ROUTES } from '../../app-routes.const';
+import { Link } from 'react-router-dom';
 
 
 type Props = {
@@ -10,7 +12,8 @@ const MovieCard: FC<Props> = (props) => {
   const {
     movie: {
       title,
-      posterUrl
+      posterUrl,
+      id,
     }
   } = props;
 
@@ -20,7 +23,7 @@ const MovieCard: FC<Props> = (props) => {
         <img src={posterUrl} alt={title} width="280" height="175"/>
       </div>
       <h3 className="small-film-card__title">
-        <a className="small-film-card__link" href="film-page.html">{title}</a>
+        <Link className="small-film-card__link" to={ROUTES.FILM.replace(':id', id)}>{title}</Link>
       </h3>
     </article>
   );

@@ -1,5 +1,4 @@
 import MainPage from '../../pages/main-page/main-page';
-import { MOVIE_LIST } from '../../pages/main-page/const';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { AuthorizationStatus, ROUTES } from '../../app-routes.const';
 import PrivateRoute from '../private-route/private-route';
@@ -9,6 +8,7 @@ import PlayerPage from '../../pages/player-page/player-page';
 import CreateReviewPage from '../../pages/create-review-page/create-review-page';
 import NotFoundPage from '../../pages/not-found-page/not-found-page';
 import MoviePage from '../../pages/movie-page/movie-page';
+import { MOVIE_LIST } from '../../mocks/film';
 
 function App(): JSX.Element {
   return (
@@ -20,13 +20,13 @@ function App(): JSX.Element {
           path={ROUTES.MYLIST}
           element={
             <PrivateRoute authorizationStatus={AuthorizationStatus.NoAuth}>
-              <ListPage />
+              <ListPage allMovies={MOVIE_LIST}/>
             </PrivateRoute>
           }
         />
-        <Route path={ROUTES.FILM} element={<MoviePage/>}/>
-        <Route path={ROUTES.ADDREVIEW} element={<CreateReviewPage/>}/>
-        <Route path={ROUTES.PLAYER} element={<PlayerPage/>}/>
+        <Route path={ROUTES.FILM} element={<MoviePage allMovies={MOVIE_LIST}/>}/>
+        <Route path={ROUTES.ADD_REVIEW} element={<CreateReviewPage/>}/>
+        <Route path={ROUTES.PLAYER} element={<PlayerPage movie={MOVIE_LIST[0]}/>}/>
         <Route path={ROUTES.NOTFOUND} element={<NotFoundPage/>}/>
       </Routes>
     </BrowserRouter>

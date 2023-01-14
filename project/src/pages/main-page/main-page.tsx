@@ -1,6 +1,6 @@
 import { FC } from 'react';
-import MovieCard from '../../components/movie-card/movie-card';
 import { Movie } from '../../types/main-page.types';
+import MovieList from '../../components/movie-list/movie-list';
 
 type Props = {
   movie: Movie;
@@ -145,11 +145,7 @@ const MainPage: FC<Props> = (props) => {
             </li>
           </ul>
 
-          <div className="catalog__films-list">
-            {
-              allMovies.map((movie) => <MovieCard key={`${movie.title}-${movie.posterUrl}`} movie={movie} />)
-            }
-          </div>
+          <MovieList movies={allMovies}/>
 
           <div className="catalog__more">
             <button className="catalog__button" type="button">Show more</button>
