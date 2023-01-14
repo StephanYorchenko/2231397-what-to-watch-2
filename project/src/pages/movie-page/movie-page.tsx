@@ -5,15 +5,16 @@ import NotFoundPage from '../not-found-page/not-found-page';
 import {Tabs} from '../../components/tabs/tabs';
 import { REVIEW_LIST } from '../../mocks/film';
 import { useAppSelector } from '../../hooks/store.hooks';
+import { ROUTES } from '../../app-routes.const';
 
 
 const MoviePage = () => {
   const { id } = useParams();
-  const movie = getMovieById(id ?? '');
   const { movies } = useAppSelector((state) => state);
 
+  const movie = getMovieById(id ?? '');
 
-  if (!movie) {
+  if (!id || !movie) {
     return <NotFoundPage />;
   }
 
@@ -22,14 +23,14 @@ const MoviePage = () => {
       <section className="film-card film-card--full">
         <div className="film-card__hero">
           <div className="film-card__bg">
-            <img src={movie?.posterUrl} alt={movie?.title}/>
+            <img src={movie?.posterImage} alt={movie?.name}/>
           </div>
 
           <h1 className="visually-hidden">WTW</h1>
 
           <header className="page-header film-card__head">
             <div className="logo">
-              <a href="main.html" className="logo__link">
+              <a href="/" className="logo__link">
                 <span className="logo__letter logo__letter--1">W</span>
                 <span className="logo__letter logo__letter--2">T</span>
                 <span className="logo__letter logo__letter--3">W</span>
@@ -50,19 +51,21 @@ const MoviePage = () => {
 
           <div className="film-card__wrap">
             <div className="film-card__desc">
-              <h2 className="film-card__title">{movie?.title}</h2>
+              <h2 className="film-card__title">{movie?.name}</h2>
               <p className="film-card__meta">
                 <span className="film-card__genre">{movie?.genre}</span>
                 <span className="film-card__year">{movie?.releaseDate}</span>
               </p>
 
               <div className="film-card__buttons">
-                <button className="btn btn--play film-card__button" type="button">
-                  <svg viewBox="0 0 19 19" width="19" height="19">
-                    <use xlinkHref="#play-s"></use>
-                  </svg>
-                  <span>Play</span>
-                </button>
+                <Link to={ROUTES.PLAYER.replace(':id', id)}>
+                  <button className="btn btn--play film-card__button" type="button">
+                    <svg viewBox="0 0 19 19" width="19" height="19">
+                      <use xlinkHref="#play-s"></use>
+                    </svg>
+                    <span>Play</span>
+                  </button>
+                </Link>
                 <button className="btn btn--list film-card__button" type="button">
                   <svg viewBox="0 0 19 20" width="19" height="20">
                     <use xlinkHref="#add"></use>
@@ -80,8 +83,8 @@ const MoviePage = () => {
           <div className="film-card__info">
             <div className="film-card__poster film-card__poster--big">
               <img
-                src={movie.posterUrl}
-                alt={movie.title}
+                src={movie.posterImage}
+                alt={movie.name}
                 width="218"
                 height="327"
               />
@@ -103,7 +106,7 @@ const MoviePage = () => {
 
         <footer className="page-footer">
           <div className="logo">
-            <a href="main.html" className="logo__link logo__link--light">
+            <a href="/" className="logo__link logo__link--light">
               <span className="logo__letter logo__letter--1">W</span>
               <span className="logo__letter logo__letter--2">T</span>
               <span className="logo__letter logo__letter--3">W</span>

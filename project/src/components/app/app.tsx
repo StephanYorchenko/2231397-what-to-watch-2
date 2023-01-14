@@ -8,13 +8,32 @@ import PlayerPage from '../../pages/player-page/player-page';
 import CreateReviewPage from '../../pages/create-review-page/create-review-page';
 import NotFoundPage from '../../pages/not-found-page/not-found-page';
 import MoviePage from '../../pages/movie-page/movie-page';
-import { MOVIE_LIST } from '../../mocks/film';
+import {useAppDispatch, useAppSelector} from '../../hooks/store.hooks';
+import { RequestStatus } from '../../types/store.types';
+import { Loader } from '../loader/loader';
+import { fetchFilms } from '../../store/api-actions';
+import { useEffect } from 'react';
 
 function App(): JSX.Element {
+  const { requestStatus } = useAppSelector((state) => state);
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(fetchFilms());
+  }, []);
+
+  if (requestStatus === RequestStatus.loading) {
+    return <Loader />;
+  }
+
+  if (requestStatus === RequestStatus.error) {
+    return <>Ведутся технические работы. Зайдите позже</>;
+  }
+
   return (
     <BrowserRouter>
       <Routes>
-        <Route path={ROUTES.MAIN} element={<MainPage movie={MOVIE_LIST[0]}/>}/>
+        <Route path={ROUTES.MAIN} element={<MainPage />}/>
         <Route path={ROUTES.SIGNIN} element={<SignInPage/>}/>
         <Route
           path={ROUTES.MYLIST}
@@ -26,7 +45,7 @@ function App(): JSX.Element {
         />
         <Route path={ROUTES.FILM} element={<MoviePage />}/>
         <Route path={ROUTES.ADD_REVIEW} element={<CreateReviewPage/>}/>
-        <Route path={ROUTES.PLAYER} element={<PlayerPage movie={MOVIE_LIST[0]}/>}/>
+        <Route path={ROUTES.PLAYER} element={<PlayerPage />}/>
         <Route path={ROUTES.NOTFOUND} element={<NotFoundPage/>}/>
       </Routes>
     </BrowserRouter>
