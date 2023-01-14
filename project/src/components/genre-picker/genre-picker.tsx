@@ -4,15 +4,18 @@ import GenreItem from './genre-item';
 
 type Props = {
   genres: Genre[];
+  resetPagination: VoidFunction;
 };
 
 const GenresPicker: FC<Props> = (props) => {
-  const { genres } = props;
+  const { genres, resetPagination } = props;
 
   return (
     <ul className='catalog__genres-list'>
       {
-        genres.map((genre) => (<GenreItem key={genre} genre={genre}/>))
+        genres.map((genre) => (
+          <GenreItem key={genre} genre={genre} resetPagination={resetPagination}/>
+        ))
       }
     </ul>
   );

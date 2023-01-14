@@ -12,3 +12,5 @@ export const GENRE_ARRAY = [
   Genre.SCI_FI,
   Genre.THRILLER,
 ];
+
+export const PAGINATION_STEP = 8;

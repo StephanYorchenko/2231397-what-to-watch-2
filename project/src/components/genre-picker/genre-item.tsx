@@ -6,10 +6,11 @@ import { MOVIE_LIST } from '../../mocks/film';
 
 type Props = {
   genre: Genre;
+  resetPagination: VoidFunction;
 };
 
 const GenreItem: FC<Props> = (props) => {
-  const { genre } = props;
+  const { genre, resetPagination } = props;
   const { activeGenre } = useAppSelector((state) => state);
   const dispatch = useAppDispatch();
 
@@ -21,7 +22,9 @@ const GenreItem: FC<Props> = (props) => {
       setMovieList(
         MOVIE_LIST.filter((movie) =>
           movie.genre === activeGenreToChange || activeGenreToChange === Genre.ALL_GENRES)
-      ));
+      )
+    );
+    resetPagination();
   };
 
   return (
