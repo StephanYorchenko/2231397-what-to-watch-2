@@ -1,8 +1,7 @@
 import React, { FC } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks/store.hooks';
-import { changeGenre, setMovieList } from '../../store/action';
+import { changeGenre } from '../../store/action';
 import { Genre } from '../../types/main-page.types';
-import { MOVIE_LIST } from '../../mocks/film';
 
 type Props = {
   genre: Genre;
@@ -18,12 +17,6 @@ const GenreItem: FC<Props> = (props) => {
     activeGenreToChange: Genre
   ) => {
     dispatch(changeGenre(activeGenreToChange));
-    dispatch(
-      setMovieList(
-        MOVIE_LIST.filter((movie) =>
-          movie.genre === activeGenreToChange || activeGenreToChange === Genre.ALL_GENRES)
-      )
-    );
     resetPagination();
   };
 

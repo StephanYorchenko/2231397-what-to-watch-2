@@ -1,20 +1,13 @@
-import {FC, useMemo, useState} from 'react';
-import { Movie } from '../../types/main-page.types';
+import {useMemo, useState} from 'react';
 import MovieList from '../../components/movie-list/movie-list';
-import { useAppSelector } from '../../hooks/store.hooks';
+import {useAppSelector} from '../../hooks/store.hooks';
 import GenresPicker from '../../components/genre-picker/genre-picker';
 import {GENRE_ARRAY, PAGINATION_STEP} from './const';
+import {MOVIE_LIST} from '../../mocks/film';
+import {Genre} from '../../types/main-page.types';
 
-type Props = {
-  movie: Movie;
-}
-
-const MainPage: FC<Props> = (props) => {
-  const {
-    movie: { title, genre, releaseDate, posterUrl },
-  } = props;
-
-  const { movies: allMovies } = useAppSelector((state) => state);
+const MainPage = () => {
+  const { movies: allMovies, activeGenre } = useAppSelector((state) => state);
   const [paginationCursor, setPaginationCursor] = useState<number>(PAGINATION_STEP);
 
   const resetPagination = () => setPaginationCursor(PAGINATION_STEP);
@@ -22,8 +15,16 @@ const MainPage: FC<Props> = (props) => {
     (v) => Math.max(v + PAGINATION_STEP, allMovies.length)
   );
 
-  const movies = useMemo(() => allMovies.slice(0, paginationCursor), [paginationCursor, allMovies]);
+  const movies = useMemo(() =>
+    allMovies
+      .filter(
+        (movie) => movie.genre === activeGenre || activeGenre === Genre.ALL_GENRES)
+      .slice(0, paginationCursor),
+  [paginationCursor, allMovies, activeGenre]
+  );
   const canLoadAdditionalItems = paginationCursor < allMovies.length;
+
+  const { name, genre, releaseDate, posterImage } = MOVIE_LIST[0];
 
   return (
     <>
@@ -90,11 +91,11 @@ const MainPage: FC<Props> = (props) => {
         <div className="film-card__wrap">
           <div className="film-card__info">
             <div className="film-card__poster">
-              <img src={posterUrl} alt="The Grand Budapest Hotel poster" width="218" height="327"/>
+              <img src={posterImage} alt="The Grand Budapest Hotel poster" width="218" height="327"/>
             </div>
 
             <div className="film-card__desc">
-              <h2 className="film-card__title">{title}</h2>
+              <h2 className="film-card__title">{name}</h2>
               <p className="film-card__meta">
                 <span className="film-card__genre">{genre}</span>
                 <span className="film-card__year">{releaseDate}</span>

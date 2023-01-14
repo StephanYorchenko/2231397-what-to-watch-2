@@ -10,7 +10,7 @@ type Props = {
 }
 
 const MovieCard: FC<Props> = (props) => {
-  const { movie: { videoPath, posterUrl, id, title }} = props;
+  const { movie: { previewVideoLink, posterImage, id, name }} = props;
 
   const [isVideoStarted, setIsVideoStarted] = useState<boolean>(false);
   const [cardHovered, setCardHovered] = useState<boolean>(false);
@@ -45,8 +45,8 @@ const MovieCard: FC<Props> = (props) => {
     >
       <div className="small-film-card__image">
         <VideoPlayer
-          src={videoPath}
-          poster={posterUrl}
+          src={previewVideoLink}
+          poster={posterImage}
           muted
           height="175"
           width="280"
@@ -58,7 +58,7 @@ const MovieCard: FC<Props> = (props) => {
           className="small-film-card__link"
           to={ROUTES.FILM.replace(':id', id)}
         >
-          {title}
+          {name}
         </Link>
       </h3>
     </article>

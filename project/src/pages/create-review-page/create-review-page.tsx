@@ -18,7 +18,7 @@ const CreateReviewPage: FC = () => {
 
         <header className="page-header">
           <div className="logo">
-            <a href="main.html" className="logo__link">
+            <a href="/" className="logo__link">
               <span className="logo__letter logo__letter--1">W</span>
               <span className="logo__letter logo__letter--2">T</span>
               <span className="logo__letter logo__letter--3">W</span>
@@ -28,7 +28,7 @@ const CreateReviewPage: FC = () => {
           <nav className="breadcrumbs">
             <ul className="breadcrumbs__list">
               <li className="breadcrumbs__item">
-                <Link to={getMovieLink(movie?.id)} className="breadcrumbs__link">{movie?.title}</Link>
+                <Link to={getMovieLink(movie?.id)} className="breadcrumbs__link">{movie?.name}</Link>
               </li>
               <li className="breadcrumbs__item">
                 <a href={'/'} className="breadcrumbs__link">Add review</a>
@@ -49,7 +49,7 @@ const CreateReviewPage: FC = () => {
         </header>
 
         <div className="film-card__poster film-card__poster--small">
-          <img src={movie?.posterUrl} alt={movie?.title} width="218"
+          <img src={movie?.posterImage} alt={movie?.name} width="218"
             height="327"
           />
         </div>

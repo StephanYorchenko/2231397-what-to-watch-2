@@ -1,12 +1,16 @@
-import { FC } from 'react';
-import { Movie } from '../../types/main-page.types';
+import {useParams} from 'react-router-dom';
+import {getMovieById} from '../../utils/movie';
+import NotFoundPage from '../not-found-page/not-found-page';
 
-type Props = {
-  movie: Movie;
-}
+const PlayerPage = () => {
+  const { id } = useParams();
+  const movie = getMovieById(id ?? '');
 
-const PlayerPage: FC<Props> = (props) => {
-  const { movie: { videoPath, posterUrl } } = props;
+  if (!movie){
+    return <NotFoundPage />;
+  }
+
+  const { videoLink, posterImage } = movie;
 
   return (
     <>
@@ -40,7 +44,7 @@ const PlayerPage: FC<Props> = (props) => {
       </div>
 
       <div className="player">
-        <video src={videoPath} className="player__video" poster={posterUrl} />
+        <video src={videoLink} className="player__video" poster={posterImage} />
 
         <button type="button" className="player__exit">Exit</button>
 
