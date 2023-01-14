@@ -1,7 +1,8 @@
-import { FC } from 'react';
+import {FC, useEffect, useState} from 'react';
 import { Movie } from '../../types/main-page.types';
 import { ROUTES } from '../../app-routes.const';
 import { Link } from 'react-router-dom';
+import { VideoPlayer } from '../video-player/video-player';
 
 
 type Props = {
@@ -9,21 +10,56 @@ type Props = {
 }
 
 const MovieCard: FC<Props> = (props) => {
-  const {
-    movie: {
-      title,
-      posterUrl,
-      id,
+  const { movie: { videoPath, posterUrl, id, title }} = props;
+
+  const [isVideoStarted, setIsVideoStarted] = useState<boolean>(false);
+  const [cardHovered, setCardHovered] = useState<boolean>(false);
+
+  useEffect(() => {
+    let videoNeedToPlay = true;
+
+    if (cardHovered) {
+      setTimeout(() => videoNeedToPlay && setIsVideoStarted(true), 500);
     }
-  } = props;
+
+    return () => {
+      videoNeedToPlay = false;
+    };
+  }, [cardHovered]);
+
+  const handleMouseEnter = () => {
+    setCardHovered(true);
+  };
+
+  const handleMouseLeave = () => {
+    setCardHovered(false);
+    setIsVideoStarted(false);
+  };
+
 
   return (
-    <article className="small-film-card catalog__films-card">
+    <article
+      className="small-film-card catalog__films-card"
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+    >
       <div className="small-film-card__image">
-        <img src={posterUrl} alt={title} width="280" height="175"/>
+        <VideoPlayer
+          src={videoPath}
+          poster={posterUrl}
+          muted
+          height="175"
+          width="280"
+          isPlaying={isVideoStarted}
+        />
       </div>
       <h3 className="small-film-card__title">
-        <Link className="small-film-card__link" to={ROUTES.FILM.replace(':id', id)}>{title}</Link>
+        <Link
+          className="small-film-card__link"
+          to={ROUTES.FILM.replace(':id', id)}
+        >
+          {title}
+        </Link>
       </h3>
     </article>
   );
