@@ -1,13 +1,8 @@
-import { FC } from 'react';
-import { Movie } from '../../types/main-page.types';
 import MovieList from '../../components/movie-list/movie-list';
+import { useAppSelector } from '../../hooks/store.hooks';
 
-type Props = {
-  allMovies: Movie[];
-}
-
-const ListPage: FC<Props> = (props: Props) => {
-  const { allMovies } = props;
+const ListPage = () => {
+  const { movies } = useAppSelector((state) => state);
 
   return (
     <>
@@ -66,7 +61,7 @@ const ListPage: FC<Props> = (props: Props) => {
         <section className="catalog">
           <h2 className="catalog__title visually-hidden">Catalog</h2>
 
-          <MovieList movies={allMovies} />
+          <MovieList movies={movies} />
         </section>
 
         <footer className="page-footer">
