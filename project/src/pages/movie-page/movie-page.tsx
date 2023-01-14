@@ -1,20 +1,17 @@
-import { Movie } from '../../types/main-page.types';
-import { FC } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { getMovieById, getReviewLink } from '../../utils/movie';
 import MovieList from '../../components/movie-list/movie-list';
 import NotFoundPage from '../not-found-page/not-found-page';
 import {Tabs} from '../../components/tabs/tabs';
 import { REVIEW_LIST } from '../../mocks/film';
+import { useAppSelector } from '../../hooks/store.hooks';
 
-type Props = {
-  allMovies: Movie[];
-}
 
-const MoviePage: FC<Props> = (props: Props) => {
-  const { allMovies } = props;
+const MoviePage = () => {
   const { id } = useParams();
   const movie = getMovieById(id ?? '');
+  const { movies } = useAppSelector((state) => state);
+
 
   if (!movie) {
     return <NotFoundPage />;
@@ -100,7 +97,7 @@ const MoviePage: FC<Props> = (props: Props) => {
           <h2 className="catalog__title">More like this</h2>
 
           <div className="catalog__films-list">
-            <MovieList movies={allMovies} />
+            <MovieList movies={movies} />
           </div>
         </section>
 

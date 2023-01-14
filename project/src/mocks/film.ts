@@ -1,11 +1,11 @@
-import { Movie } from '../types/main-page.types';
-import { Review } from '../types/review.types';
+import {Genre, Movie} from '../types/main-page.types';
+import {Review} from '../types/review.types';
 
 export const MOVIE_LIST: Movie[] = [
   {
     id: '228',
     title: 'midnight',
-    genre: 'comedy',
+    genre: Genre.COMEDY,
     releaseDate: '2010',
     posterUrl: 'img/midnight-special.jpg',
     description: 'desc',
@@ -19,7 +19,7 @@ export const MOVIE_LIST: Movie[] = [
   {
     id: '1',
     title: 'hotel',
-    genre: 'tragedy',
+    genre: Genre.CRIME,
     releaseDate: '2010',
     posterUrl: 'img/the-grand-budapest-hotel-poster.jpg',
     description: 'desc',
@@ -33,7 +33,7 @@ export const MOVIE_LIST: Movie[] = [
   {
     id: '2',
     title: 'avatar',
-    genre: 'comedy',
+    genre: Genre.COMEDY,
     releaseDate: '2010',
     posterUrl: 'img/avatar.jpg',
     description: 'desc',
@@ -47,7 +47,7 @@ export const MOVIE_LIST: Movie[] = [
   {
     id: '3',
     title: 'aviator',
-    genre: 'tragedy',
+    genre: Genre.DRAMA,
     releaseDate: '2010',
     posterUrl: 'img/aviator.jpg',
     description: 'desc',
@@ -61,7 +61,7 @@ export const MOVIE_LIST: Movie[] = [
   {
     id: '4',
     title: 'mindhunter',
-    genre: 'comedy',
+    genre: Genre.KIDS_AND_FAMILY,
     releaseDate: '2010',
     posterUrl: 'img/mindhunter.jpg',
     description: 'desc',
@@ -75,7 +75,7 @@ export const MOVIE_LIST: Movie[] = [
   {
     id: '5',
     title: 'orlando',
-    genre: 'tragedy',
+    genre: Genre.HORROR,
     releaseDate: '2010',
     posterUrl: 'img/orlando.jpg',
     description: 'desc',
@@ -89,7 +89,7 @@ export const MOVIE_LIST: Movie[] = [
   {
     id: '6',
     title: 'hotel',
-    genre: 'comedy',
+    genre: Genre.SCI_FI,
     releaseDate: '2010',
     posterUrl: 'img/the-grand-budapest-hotel-poster.jpg',
     description: 'desc',
@@ -103,7 +103,7 @@ export const MOVIE_LIST: Movie[] = [
   {
     id: '7',
     title: 'revenant',
-    genre: 'tragedy',
+    genre: Genre.ROMANCE,
     releaseDate: '2010',
     posterUrl: 'img/revenant.jpg',
     description: 'desc',
@@ -117,7 +117,7 @@ export const MOVIE_LIST: Movie[] = [
   {
     id: '8',
     title: 'snatch',
-    genre: 'comedy',
+    genre: Genre.DOCUMENTARY,
     releaseDate: '2010',
     posterUrl: 'img/snatch.jpg',
     description: 'desc',

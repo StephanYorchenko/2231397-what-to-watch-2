@@ -14,17 +14,17 @@ function App(): JSX.Element {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path={ROUTES.MAIN} element={<MainPage movie={MOVIE_LIST[0]} allMovies={MOVIE_LIST}/>}/>
+        <Route path={ROUTES.MAIN} element={<MainPage movie={MOVIE_LIST[0]}/>}/>
         <Route path={ROUTES.SIGNIN} element={<SignInPage/>}/>
         <Route
           path={ROUTES.MYLIST}
           element={
             <PrivateRoute authorizationStatus={AuthorizationStatus.NoAuth}>
-              <ListPage allMovies={MOVIE_LIST}/>
+              <ListPage />
             </PrivateRoute>
           }
         />
-        <Route path={ROUTES.FILM} element={<MoviePage allMovies={MOVIE_LIST}/>}/>
+        <Route path={ROUTES.FILM} element={<MoviePage />}/>
         <Route path={ROUTES.ADD_REVIEW} element={<CreateReviewPage/>}/>
         <Route path={ROUTES.PLAYER} element={<PlayerPage movie={MOVIE_LIST[0]}/>}/>
         <Route path={ROUTES.NOTFOUND} element={<NotFoundPage/>}/>

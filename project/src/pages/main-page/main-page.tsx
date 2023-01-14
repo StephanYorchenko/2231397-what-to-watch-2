@@ -1,17 +1,20 @@
 import { FC } from 'react';
 import { Movie } from '../../types/main-page.types';
 import MovieList from '../../components/movie-list/movie-list';
+import { useAppSelector } from '../../hooks/store.hooks';
+import GenresPicker from '../../components/genre-picker/genre-picker';
+import { GENRE_ARRAY } from './const';
 
 type Props = {
   movie: Movie;
-  allMovies: Movie[];
 }
 
 const MainPage: FC<Props> = (props) => {
   const {
     movie: { title, genre, releaseDate, posterUrl },
-    allMovies
   } = props;
+
+  const { movies: allMovies } = useAppSelector((state) => state);
 
   return (
     <>
@@ -112,38 +115,7 @@ const MainPage: FC<Props> = (props) => {
         <section className="catalog">
           <h2 className="catalog__title visually-hidden">Catalog</h2>
 
-          <ul className="catalog__genres-list">
-            <li className="catalog__genres-item catalog__genres-item--active">
-              <a href={'/'} className="catalog__genres-link">All genres</a>
-            </li>
-            <li className="catalog__genres-item">
-              <a href={'/'} className="catalog__genres-link">Comedies</a>
-            </li>
-            <li className="catalog__genres-item">
-              <a href={'/'} className="catalog__genres-link">Crime</a>
-            </li>
-            <li className="catalog__genres-item">
-              <a href={'/'} className="catalog__genres-link">Documentary</a>
-            </li>
-            <li className="catalog__genres-item">
-              <a href={'/'} className="catalog__genres-link">Dramas</a>
-            </li>
-            <li className="catalog__genres-item">
-              <a href={'/'} className="catalog__genres-link">Horror</a>
-            </li>
-            <li className="catalog__genres-item">
-              <a href={'/'} className="catalog__genres-link">Kids & Family</a>
-            </li>
-            <li className="catalog__genres-item">
-              <a href={'/'} className="catalog__genres-link">Romance</a>
-            </li>
-            <li className="catalog__genres-item">
-              <a href={'/'} className="catalog__genres-link">Sci-Fi</a>
-            </li>
-            <li className="catalog__genres-item">
-              <a href={'/'} className="catalog__genres-link">Thrillers</a>
-            </li>
-          </ul>
+          <GenresPicker genres={GENRE_ARRAY}/>
 
           <MovieList movies={allMovies}/>
 
