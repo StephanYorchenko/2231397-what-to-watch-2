@@ -1,10 +1,11 @@
-import {useParams} from 'react-router-dom';
-import {getMovieById} from '../../utils/movie';
+import { useParams } from 'react-router-dom';
 import NotFoundPage from '../not-found-page/not-found-page';
+import { useMovie } from '../../hooks/movie.hooks';
 
 const PlayerPage = () => {
   const { id } = useParams();
-  const movie = getMovieById(id ?? '');
+
+  const movie = useMovie(id);
 
   if (!movie){
     return <NotFoundPage />;

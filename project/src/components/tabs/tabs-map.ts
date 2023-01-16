@@ -3,7 +3,6 @@ import { Details } from './details.tab';
 import { Reviews } from './reviews.tab';
 import { Overview } from './overview.tab';
 import { Movie } from '../../types/main-page.types';
-import { Review } from '../../types/review.types';
 
 export enum Tab {
   OVERVIEW = 'overview',
@@ -19,7 +18,6 @@ export const tabNames: Record<Tab, string> = {
 
 export type TabContentProps = {
   movie: Movie;
-  reviews: Review[];
 }
 
 export const tabComponentMap: Record<Tab, FC<TabContentProps>> = {

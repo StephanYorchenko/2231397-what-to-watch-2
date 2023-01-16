@@ -18,7 +18,7 @@ export const Details = (props: Props) => {
         <p className="film-card__details-item">
           <strong className="film-card__details-name">Starring</strong>
           <span>
-            {actors.map((actor) => <Fragment key={actor}>{actor}, <br/> </Fragment>)}
+            {actors?.map((actor) => <Fragment key={actor}>{actor}, <br/> </Fragment>)}
           </span>
         </p>
       </div>

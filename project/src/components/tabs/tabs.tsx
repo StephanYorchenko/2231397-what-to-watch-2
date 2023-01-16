@@ -1,15 +1,13 @@
 import React, { useState } from 'react';
 import { Tab, tabComponentMap, tabNames, TABS_ARRAY } from './tabs-map';
 import { Movie } from '../../types/main-page.types';
-import { Review } from '../../types/review.types';
 
 type Props = {
   movie: Movie;
-  reviews: Review[];
 }
 
 export const Tabs = (props: Props) => {
-  const { movie, reviews } = props;
+  const { movie } = props;
   const [currentTab, setCurrentTab] = useState<Tab>(Tab.OVERVIEW);
 
   return (
@@ -31,7 +29,7 @@ export const Tabs = (props: Props) => {
         </ul>
       </nav>
 
-      {React.createElement(tabComponentMap[currentTab], { movie, reviews })}
+      {React.createElement(tabComponentMap[currentTab], { movie })}
 
     </div>
   );

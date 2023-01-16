@@ -27,7 +27,7 @@ export const Overview = (props: Props) => {
 
         <p className="film-card__director"><strong>Director: {director}</strong></p>
 
-        <p className="film-card__starring"><strong>Starring: {actors.join(', ')} and other</strong></p>
+        <p className="film-card__starring"><strong>Starring: {actors?.join(', ')} and other</strong></p>
       </div>
     </>
   );

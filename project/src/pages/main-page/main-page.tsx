@@ -3,11 +3,11 @@ import MovieList from '../../components/movie-list/movie-list';
 import { useAppSelector } from '../../hooks/store.hooks';
 import GenresPicker from '../../components/genre-picker/genre-picker';
 import { GENRE_ARRAY, PAGINATION_STEP } from './const';
-import { MOVIE_LIST } from '../../mocks/film';
 import { Genre } from '../../types/main-page.types';
 import { Link } from 'react-router-dom';
 import { ROUTES } from '../../app-routes.const';
 import { UserBlock } from '../../components/user-block/user-block';
+import NotFoundPage from '../not-found-page/not-found-page';
 
 const MainPage = () => {
   const { movies: allMovies, activeGenre } = useAppSelector((state) => state);
@@ -27,7 +27,10 @@ const MainPage = () => {
   );
   const canLoadAdditionalItems = paginationCursor < allMovies.length;
 
-  const { name, genre, releaseDate, posterImage } = MOVIE_LIST[0];
+  if (!allMovies.length)
+  {return <NotFoundPage />;}
+
+  const { name, genre, releaseDate, posterImage } = allMovies[0];
 
   return (
     <>

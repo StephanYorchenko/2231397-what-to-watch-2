@@ -1,12 +1,18 @@
 import { Link, useParams } from 'react-router-dom';
-import { getMovieById, getMovieLink } from '../../utils/movie';
+import { getMovieLink } from '../../utils/movie';
 import { FC } from 'react';
 import AddReview from '../../components/create-review/creacte-review';
 import { UserBlock } from '../../components/user-block/user-block';
+import NotFoundPage from '../not-found-page/not-found-page';
+import {useMovie} from '../../hooks/movie.hooks';
 
 const CreateReviewPage: FC = () => {
   const { id } = useParams();
-  const movie = getMovieById(id ?? '');
+  const movie = useMovie(id);
+
+  if (!id){
+    return <NotFoundPage />;
+  }
 
   return (
     <section className="film-card film-card--full">
@@ -48,7 +54,7 @@ const CreateReviewPage: FC = () => {
       </div>
 
       <div className="add-review">
-        <AddReview />
+        <AddReview movieId={id}/>
       </div>
     </section>
   );
