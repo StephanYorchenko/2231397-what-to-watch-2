@@ -1,4 +1,6 @@
 export enum APIRoute {
   GetFilms = '/films',
-  GetFilmById = '/films/:id'
+  GetFilmById = '/films/:id',
+  Login = '/login',
+  Logout = '/logout',
 }

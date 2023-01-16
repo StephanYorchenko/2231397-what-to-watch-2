@@ -1,10 +1,13 @@
-import {useMemo, useState} from 'react';
+import { useMemo, useState } from 'react';
 import MovieList from '../../components/movie-list/movie-list';
-import {useAppSelector} from '../../hooks/store.hooks';
+import { useAppSelector } from '../../hooks/store.hooks';
 import GenresPicker from '../../components/genre-picker/genre-picker';
-import {GENRE_ARRAY, PAGINATION_STEP} from './const';
-import {MOVIE_LIST} from '../../mocks/film';
-import {Genre} from '../../types/main-page.types';
+import { GENRE_ARRAY, PAGINATION_STEP } from './const';
+import { MOVIE_LIST } from '../../mocks/film';
+import { Genre } from '../../types/main-page.types';
+import { Link } from 'react-router-dom';
+import { ROUTES } from '../../app-routes.const';
+import { UserBlock } from '../../components/user-block/user-block';
 
 const MainPage = () => {
   const { movies: allMovies, activeGenre } = useAppSelector((state) => state);
@@ -76,16 +79,7 @@ const MainPage = () => {
             </a>
           </div>
 
-          <ul className="user-block">
-            <li className="user-block__item">
-              <div className="user-block__avatar">
-                <img src="img/avatar.jpg" alt="User avatar" width="63" height="63"/>
-              </div>
-            </li>
-            <li className="user-block__item">
-              <a href={'/'} className="user-block__link">Sign out</a>
-            </li>
-          </ul>
+          <UserBlock />
         </header>
 
         <div className="film-card__wrap">
@@ -136,11 +130,11 @@ const MainPage = () => {
 
         <footer className="page-footer">
           <div className="logo">
-            <a href={'/'} className="logo__link logo__link--light">
+            <Link to={ROUTES.MAIN} className="logo__link logo__link--light">
               <span className="logo__letter logo__letter--1">W</span>
               <span className="logo__letter logo__letter--2">T</span>
               <span className="logo__letter logo__letter--3">W</span>
-            </a>
+            </Link>
           </div>
 
           <div className="copyright">
