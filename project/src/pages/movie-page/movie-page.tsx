@@ -1,22 +1,41 @@
 import { Link, useParams } from 'react-router-dom';
-import { getMovieById, getReviewLink } from '../../utils/movie';
+import { getReviewLink } from '../../utils/movie';
 import MovieList from '../../components/movie-list/movie-list';
 import NotFoundPage from '../not-found-page/not-found-page';
 import {Tabs} from '../../components/tabs/tabs';
-import { REVIEW_LIST } from '../../mocks/film';
-import { useAppSelector } from '../../hooks/store.hooks';
 import { ROUTES } from '../../app-routes.const';
 import { UserBlock } from '../../components/user-block/user-block';
+import { useEffect, useState } from 'react';
+import { Movie } from '../../types/main-page.types';
+import { Loader } from '../../components/loader/loader';
+import { getMovie, getSimilarMovies } from '../../store/api.requests';
 
 
 const MoviePage = () => {
   const { id } = useParams();
-  const { movies } = useAppSelector((state) => state);
 
-  const movie = getMovieById(id ?? '');
+  const [currentMovie, setCurrentMovie] = useState<Movie | null>(null);
+  const [similarFilms, setSimilarFilms] = useState<Movie[]>([]);
 
-  if (!id || !movie) {
+  useEffect(() => {
+    if (!id) {
+      return;
+    }
+
+    getMovie(id).then(({ data }) => {
+      if (data) {
+        setCurrentMovie(data);
+      }
+    });
+    getSimilarMovies(id).then(({ data }) => setSimilarFilms(data));
+  }, [id]);
+
+  if (!id) {
     return <NotFoundPage />;
+  }
+
+  if (!currentMovie) {
+    return <Loader />;
   }
 
   return (
@@ -24,7 +43,7 @@ const MoviePage = () => {
       <section className="film-card film-card--full">
         <div className="film-card__hero">
           <div className="film-card__bg">
-            <img src={movie?.posterImage} alt={movie?.name}/>
+            <img src={currentMovie?.posterImage} alt={currentMovie?.name}/>
           </div>
 
           <h1 className="visually-hidden">WTW</h1>
@@ -43,10 +62,10 @@ const MoviePage = () => {
 
           <div className="film-card__wrap">
             <div className="film-card__desc">
-              <h2 className="film-card__title">{movie?.name}</h2>
+              <h2 className="film-card__title">{currentMovie.name}</h2>
               <p className="film-card__meta">
-                <span className="film-card__genre">{movie?.genre}</span>
-                <span className="film-card__year">{movie?.releaseDate}</span>
+                <span className="film-card__genre">{currentMovie.genre}</span>
+                <span className="film-card__year">{currentMovie.releaseDate}</span>
               </p>
 
               <div className="film-card__buttons">
@@ -65,7 +84,7 @@ const MoviePage = () => {
                   <span>My list</span>
                   <span className="film-card__count">9</span>
                 </button>
-                <Link replace to={getReviewLink(movie?.id)} className="btn film-card__button">Add review</Link>
+                <Link replace to={getReviewLink(currentMovie.id)} className="btn film-card__button">Add review</Link>
               </div>
             </div>
           </div>
@@ -75,14 +94,14 @@ const MoviePage = () => {
           <div className="film-card__info">
             <div className="film-card__poster film-card__poster--big">
               <img
-                src={movie.posterImage}
-                alt={movie.name}
+                src={currentMovie.posterImage}
+                alt={currentMovie.name}
                 width="218"
                 height="327"
               />
             </div>
 
-            <Tabs movie={movie} reviews={REVIEW_LIST}/>
+            <Tabs movie={currentMovie} />
           </div>
         </div>
       </section>
@@ -92,7 +111,7 @@ const MoviePage = () => {
           <h2 className="catalog__title">More like this</h2>
 
           <div className="catalog__films-list">
-            <MovieList movies={movies} />
+            <MovieList movies={similarFilms} />
           </div>
         </section>
 

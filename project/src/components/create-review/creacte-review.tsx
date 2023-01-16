@@ -1,8 +1,17 @@
-import { ChangeEvent, FC, useState } from 'react';
+import { ChangeEvent, FC, useCallback, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { getMovieLink } from '../../utils/movie';
+import { postMovieReview } from '../../store/api.requests';
 
-const AddReview: FC = () => {
+type Props = {
+  movieId: string;
+};
+
+const AddReview: FC<Props> = (props) => {
+  const { movieId } = props;
   const [reviewText, setReviewText] = useState('');
   const [rating, setRating] = useState(0);
+  const navigate = useNavigate();
 
   const handleTextChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
     setReviewText(e.target.value);
@@ -12,8 +21,22 @@ const AddReview: FC = () => {
     setRating(Number(e.target.value));
   };
 
+  const handleSubmit = useCallback(() => {
+    if (reviewText && rating) {
+      postMovieReview(movieId, { comment: reviewText, rating })
+        .then(() => navigate(getMovieLink(movieId)));
+    }
+  }, [movieId, reviewText, rating, navigate]);
+
   return (
-    <form action="#" className="add-review__form">
+    <form
+      action="#"
+      className="add-review__form"
+      onSubmit={(e) => {
+        e.preventDefault();
+        handleSubmit();
+      }}
+    >
       <div className="rating">
         <div className="rating__stars">
           {

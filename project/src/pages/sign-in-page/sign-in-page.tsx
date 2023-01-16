@@ -20,8 +20,7 @@ const SignInPage = () => {
 
   const handleSubmit = () => {
     if (email && password) {
-      dispatch(loginAction({ email, password }));
-      navigate(ROUTES.MAIN);
+      dispatch(loginAction({ email, password })).then(() => navigate(ROUTES.MAIN));
     }
   };
 

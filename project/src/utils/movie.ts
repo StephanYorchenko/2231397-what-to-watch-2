@@ -1,8 +1,5 @@
-import { MOVIE_LIST } from '../mocks/film';
 import { RatingDescription } from '../types/main-page.types';
 import {ROUTES} from '../app-routes.const';
-
-export const getMovieById = (id: string) => MOVIE_LIST.find((movie) => movie.id === id);
 
 export const getMovieLink = (id: string | undefined) => id ? ROUTES.FILM.replace(':id', id) : '#';
 export const getReviewLink = (id: string | undefined) => id ? ROUTES.ADD_REVIEW.replace(':id', id) : '#';
