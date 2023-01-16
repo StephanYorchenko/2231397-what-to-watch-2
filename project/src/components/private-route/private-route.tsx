@@ -1,17 +1,18 @@
 import { FC} from 'react';
 import { Navigate } from 'react-router-dom';
-import { ROUTES, AuthorizationStatus } from '../../app-routes.const';
+import { ROUTES } from '../../app-routes.const';
+import { useAppSelector } from '../../hooks/store.hooks';
 
 type Props = {
-  authorizationStatus: AuthorizationStatus;
   children: JSX.Element;
 }
 
 const PrivateRoute: FC<Props> = (props) => {
-  const { authorizationStatus, children } = props;
+  const { children } = props;
+  const { authorizationStatus } = useAppSelector((state) => state);
 
   return (
-    authorizationStatus === AuthorizationStatus.Auth
+    authorizationStatus
       ? children
       : <Navigate to={ROUTES.SIGNIN} />
   );
