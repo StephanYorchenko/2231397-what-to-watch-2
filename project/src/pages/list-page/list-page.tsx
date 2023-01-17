@@ -3,7 +3,7 @@ import { useAppSelector } from '../../hooks/store.hooks';
 import { UserBlock } from '../../components/user-block/user-block';
 
 const ListPage = () => {
-  const { movies } = useAppSelector((state) => state);
+  const { favouriteFilms: movies } = useAppSelector((state) => state);
 
   return (
     <>
@@ -46,7 +46,7 @@ const ListPage = () => {
             </a>
           </div>
 
-          <h1 className="page-title user-page__title">My list <span className="user-page__film-count">9</span></h1>
+          <h1 className="page-title user-page__title">My list <span className="user-page__film-count">{movies.length}</span></h1>
           <UserBlock />
         </header>
 

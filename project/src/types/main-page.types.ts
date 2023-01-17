@@ -14,6 +14,7 @@ export type Movie = {
   duration: string;
   previewVideoLink: string;
   videoLink: string;
+  isFavourite: boolean;
 }
 
 export enum RatingDescription {

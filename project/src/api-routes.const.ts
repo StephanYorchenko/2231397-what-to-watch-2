@@ -7,4 +7,5 @@ export enum APIRoute {
   GetSimilarFilms = '/films/:id/similar',
   GetPromoFilm = '/promo',
   GetFavourite = '/favorite',
+  ToggleFavouriteFilm = '/favorite/:id/:status'
 }

@@ -46,7 +46,12 @@ function App(): JSX.Element {
           }
         />
         <Route path={ROUTES.FILM} element={<MoviePage />}/>
-        <Route path={ROUTES.ADD_REVIEW} element={<CreateReviewPage/>}/>
+        <Route path={ROUTES.ADD_REVIEW} element={
+          <PrivateRoute>
+            <CreateReviewPage/>
+          </PrivateRoute>
+        }
+        />
         <Route path={ROUTES.PLAYER} element={<PlayerPage />}/>
         <Route path={ROUTES.NOTFOUND} element={<NotFoundPage/>}/>
       </Routes>
