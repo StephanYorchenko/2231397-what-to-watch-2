@@ -4,6 +4,7 @@ export type Movie = {
   genre: Genre;
   releaseDate: string;
   posterImage: string;
+  previewImage: string;
   description: string;
   rating: string;
   ratingDescription?: RatingDescription;

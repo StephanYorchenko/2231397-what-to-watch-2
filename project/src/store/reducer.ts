@@ -3,6 +3,7 @@ import { changeAuthStatus, changeGenre, setMovieList, setRequestStatus, setUser 
 import { Genre, Movie } from '../types/main-page.types';
 import { RequestStatus } from '../types/store.types';
 import { User } from '../types/auth.types';
+import { fetchPromoFilm } from './api-actions';
 
 type TStoreState = {
   activeGenre: Genre;
@@ -10,6 +11,7 @@ type TStoreState = {
   requestStatus: RequestStatus;
   authorizationStatus: boolean;
   user: User | null;
+  promoFilm: Movie | null;
 };
 
 const initialState: TStoreState = {
@@ -18,6 +20,7 @@ const initialState: TStoreState = {
   requestStatus: RequestStatus.success,
   authorizationStatus: false,
   user: null,
+  promoFilm: null,
 };
 
 export const reducer = createReducer<TStoreState>(initialState, (builder) => {
@@ -36,5 +39,8 @@ export const reducer = createReducer<TStoreState>(initialState, (builder) => {
     })
     .addCase(setUser, (state, action) => {
       state.user = action.payload;
+    })
+    .addCase(fetchPromoFilm.fulfilled, (state, action) => {
+      state.promoFilm = action.payload;
     });
 });

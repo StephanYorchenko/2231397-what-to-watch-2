@@ -11,7 +11,7 @@ import MoviePage from '../../pages/movie-page/movie-page';
 import { useAppDispatch, useAppSelector } from '../../hooks/store.hooks';
 import { RequestStatus } from '../../types/store.types';
 import { Loader } from '../loader/loader';
-import { checkAuthAction, fetchFilms } from '../../store/api-actions';
+import {checkAuthAction, fetchFilms, fetchPromoFilm} from '../../store/api-actions';
 import { useEffect } from 'react';
 
 function App(): JSX.Element {
@@ -21,6 +21,7 @@ function App(): JSX.Element {
   useEffect(() => {
     dispatch(checkAuthAction());
     dispatch(fetchFilms());
+    dispatch(fetchPromoFilm());
   }, [dispatch]);
 
   if (requestStatus === RequestStatus.loading) {

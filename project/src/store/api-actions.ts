@@ -22,6 +22,17 @@ export const fetchFilms = createAsyncThunk<void, undefined, {
   },
 );
 
+export const fetchPromoFilm = createAsyncThunk<Movie, undefined, {
+  state: State;
+  extra: AxiosInstance;
+}>(
+  'fetchPromoFilm',
+  async (_arg, { extra: api }) => {
+    const { data } = await api.get<Movie>(APIRoute.GetPromoFilm);
+    return data;
+  }
+);
+
 export const checkAuthAction = createAsyncThunk<void, undefined, {
   dispatch: AppDispatch;
   state: State;

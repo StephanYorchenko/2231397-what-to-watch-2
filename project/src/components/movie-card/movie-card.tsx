@@ -1,8 +1,8 @@
-import {FC, useEffect, useState} from 'react';
+import { FC, useEffect, useState } from 'react';
 import { Movie } from '../../types/main-page.types';
-import { ROUTES } from '../../app-routes.const';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { VideoPlayer } from '../video-player/video-player';
+import {getMovieLink} from '../../utils/movie';
 
 
 type Props = {
@@ -11,6 +11,8 @@ type Props = {
 
 const MovieCard: FC<Props> = (props) => {
   const { movie: { previewVideoLink, posterImage, id, name }} = props;
+
+  const navigate = useNavigate();
 
   const [isVideoStarted, setIsVideoStarted] = useState<boolean>(false);
   const [cardHovered, setCardHovered] = useState<boolean>(false);
@@ -42,6 +44,7 @@ const MovieCard: FC<Props> = (props) => {
       className="small-film-card catalog__films-card"
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
+      onClick={() => navigate(getMovieLink(id))}
     >
       <div className="small-film-card__image">
         <VideoPlayer
@@ -56,7 +59,7 @@ const MovieCard: FC<Props> = (props) => {
       <h3 className="small-film-card__title">
         <Link
           className="small-film-card__link"
-          to={ROUTES.FILM.replace(':id', id)}
+          to={getMovieLink(id)}
         >
           {name}
         </Link>

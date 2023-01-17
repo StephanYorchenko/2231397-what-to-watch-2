@@ -4,5 +4,7 @@ export enum APIRoute {
   Login = '/login',
   Logout = '/logout',
   GetComments = '/comments/:id',
-  GetSimilarFilms = '/films/:id/similar'
+  GetSimilarFilms = '/films/:id/similar',
+  GetPromoFilm = '/promo',
+  GetFavourite = '/favorite',
 }
