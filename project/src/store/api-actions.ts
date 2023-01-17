@@ -33,6 +33,11 @@ export const fetchPromoFilm = createAsyncThunk<Movie, undefined, {
   }
 );
 
+export enum AuthStatus {
+  PENDING,
+  AUTHORIZED,
+  UNAUTHORIZED,
+}
 export const checkAuthAction = createAsyncThunk<void, undefined, {
   dispatch: AppDispatch;
   state: State;
@@ -40,12 +45,10 @@ export const checkAuthAction = createAsyncThunk<void, undefined, {
 }>(
   'checkAuth',
   async (_arg, {dispatch, extra: api}) => {
-    try {
-      await api.get(APIRoute.Login);
-      dispatch(changeAuthStatus(true));
-    } catch {
-      dispatch(changeAuthStatus(false));
-    }
+    dispatch(changeAuthStatus(AuthStatus.PENDING));
+    const result =
+      await api.get(APIRoute.Login).then(() => AuthStatus.AUTHORIZED).catch(() => AuthStatus.UNAUTHORIZED);
+    dispatch(changeAuthStatus(result));
   },
 );
 
@@ -58,7 +61,7 @@ export const logoutAction = createAsyncThunk<void, undefined, {
   async (_arg, {dispatch, extra: api}) => {
     await api.delete(APIRoute.Logout);
     dropAuthToken();
-    dispatch(changeAuthStatus(false));
+    dispatch(changeAuthStatus(AuthStatus.UNAUTHORIZED));
     dispatch(setUser(null));
   },
 );
@@ -72,7 +75,34 @@ export const loginAction = createAsyncThunk<void, AuthInfo, {
   async ({email, password}, {dispatch, extra: api}) => {
     const { data: user } = await api.post<User>(APIRoute.Login, {email, password});
     saveAuthToken(user.token);
-    dispatch(changeAuthStatus(true));
+    dispatch(changeAuthStatus(AuthStatus.AUTHORIZED));
     dispatch(setUser(user));
+  },
+);
+
+export const fetchFavoriteFilms = createAsyncThunk<Movie[], undefined, {
+  dispatch: AppDispatch;
+  state: State;
+  extra: AxiosInstance;
+}>('fetchFavoriteFilm', async(_arg, {extra: api}) => {
+  const { data } = await api.get<Movie[]>(APIRoute.GetFavourite);
+  return data;
+});
+
+type ToggleFavouriteRequest = {
+  movieId: string;
+  status: '1' | '0';
+}
+
+export const toggleAddToListButton = createAsyncThunk<void, ToggleFavouriteRequest, {
+  dispatch: AppDispatch;
+  state: State;
+  extra: AxiosInstance;
+}>(
+  'login',
+  async ({movieId, status}, {dispatch, extra: api}) => {
+    await api.post<Movie>(APIRoute.ToggleFavouriteFilm.replace(':id', movieId).replace(':status', status));
+    dispatch(fetchFavoriteFilms());
+    dispatch(fetchPromoFilm());
   },
 );

@@ -2,6 +2,7 @@ import { useAppSelector } from '../../hooks/store.hooks';
 import { Loader } from '../loader/loader';
 import { useNavigate } from 'react-router-dom';
 import { ROUTES } from '../../app-routes.const';
+import {AddToList} from '../add-to-list/add-to-list';
 
 export const PromoFilm = () => {
   const { promoFilm } = useAppSelector((state) => state);
@@ -38,13 +39,7 @@ export const PromoFilm = () => {
                 </svg>
                 <span>Play</span>
               </button>
-              <button className="btn btn--list film-card__button" type="button">
-                <svg viewBox="0 0 19 20" width="19" height="20">
-                  <use xlinkHref="#add" />
-                </svg>
-                <span>My list</span>
-                <span className="film-card__count">9</span>
-              </button>
+              <AddToList movieId={id}/>
             </div>
           </div>
         </div>

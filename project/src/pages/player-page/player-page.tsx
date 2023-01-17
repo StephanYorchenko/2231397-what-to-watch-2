@@ -1,11 +1,52 @@
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import NotFoundPage from '../not-found-page/not-found-page';
 import { useMovie } from '../../hooks/movie.hooks';
+import { useMemo, useRef, useState } from 'react';
+import dayjs from 'dayjs';
+import { getMovieLink } from '../../utils/movie';
 
 const PlayerPage = () => {
   const { id } = useParams();
+  const navigate = useNavigate();
 
   const movie = useMovie(id);
+
+  const [ , setIsVideoPlaying] = useState(false);
+  const [progress, setProgressBar] = useState(0);
+  const [timeLeft, setTimeLeft] = useState(0);
+  const videoRef = useRef<HTMLVideoElement | null>(null);
+
+  const handleToggleStart = () => {
+    if (videoRef.current?.paused) {
+      videoRef.current.play();
+      setIsVideoPlaying(true);
+    } else {
+      videoRef.current?.pause();
+      setIsVideoPlaying(false);
+    }
+  };
+
+  const handleFullScreen = () => {
+    if (videoRef.current?.requestFullscreen) {
+      videoRef.current?.requestFullscreen();
+    }
+  };
+
+  const handleProgressBar = () => {
+    const durationTime = videoRef?.current?.duration;
+    const currentTime = videoRef?.current?.currentTime;
+
+    if (durationTime && currentTime) {
+      setProgressBar((currentTime / durationTime) * 100);
+      setTimeLeft(durationTime - currentTime);
+    }
+  };
+
+  const timeLeftInFormat = useMemo(() => {
+    if (timeLeft / 60 / 60 >= 1) {
+      return dayjs(timeLeft * 1000).format('-hh:mm:ss');}
+    return dayjs(timeLeft * 1000).format('-mm:ss');
+  }, [timeLeft]);
 
   if (!movie){
     return <NotFoundPage />;
@@ -45,21 +86,21 @@ const PlayerPage = () => {
       </div>
 
       <div className="player">
-        <video src={videoLink} className="player__video" poster={posterImage} />
+        <video src={videoLink} className="player__video" poster={posterImage} ref={videoRef} onTimeUpdate={handleProgressBar}/>
 
-        <button type="button" className="player__exit">Exit</button>
+        <button type="button" className="player__exit" onClick={() => navigate(getMovieLink(movie.id))}>Exit</button>
 
         <div className="player__controls">
           <div className="player__controls-row">
             <div className="player__time">
-              <progress className="player__progress" value="30" max="100"/>
-              <div className="player__toggler" style={{left: '30%'}}>Toggler</div>
+              <progress className="player__progress" value={progress} max="100"/>
+              <div className="player__toggler" style={{left: `${progress}%`}}>Toggler</div>
             </div>
-            <div className="player__time-value">1:30:29</div>
+            <div className="player__time-value">{timeLeftInFormat}</div>
           </div>
 
           <div className="player__controls-row">
-            <button type="button" className="player__play">
+            <button type="button" className="player__play" onClick={handleToggleStart}>
               <svg viewBox="0 0 19 19" width="19" height="19">
                 <use xlinkHref="#play-s"/>
               </svg>
@@ -67,7 +108,7 @@ const PlayerPage = () => {
             </button>
             <div className="player__name">Transpotting</div>
 
-            <button type="button" className="player__full-screen">
+            <button type="button" className="player__full-screen" onClick={handleFullScreen}>
               <svg viewBox="0 0 27 27" width="27" height="27">
                 <use xlinkHref="#full-screen"/>
               </svg>
