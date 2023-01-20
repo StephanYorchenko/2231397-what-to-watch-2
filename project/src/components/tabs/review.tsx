@@ -1,5 +1,6 @@
 import { memo } from 'react';
 import { Review } from '../../types/review.types';
+import { Rating } from '../rating/rating';
 
 type Props = {
   reviews: Review[];
@@ -25,7 +26,7 @@ const MovieReviews = memo(({ reviews, index }: Props) => (
               </footer>
             </blockquote>
 
-            <div className="review__rating">{rating}</div>
+            <Rating rating={rating} />
           </div>
         );
       }).slice(index * 3, index * 3 + 3)

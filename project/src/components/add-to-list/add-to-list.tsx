@@ -13,12 +13,12 @@ export const AddToList = (props: Props) => {
 
   const isMovieFavourite = useMemo(() => favouriteFilms.some((i) => i.id === movieId), [movieId, favouriteFilms]);
 
-  const favoriteAddHandler = useCallback(() => {
+  const addFavoriteHandler = useCallback(() => {
     dispatch(toggleAddToListButton({ movieId , status: isMovieFavourite ? '0' : '1' }));
-  }, [movieId, isMovieFavourite]);
+  }, [movieId, isMovieFavourite, dispatch]);
 
   return (
-    <button className="btn btn--list film-card__button" type="button" onClick={favoriteAddHandler}>
+    <button className="btn btn--list film-card__button" type="button" onClick={addFavoriteHandler}>
       <svg viewBox="0 0 19 20" width="19" height="20">
         <use xlinkHref={isMovieFavourite ? '#in-list' : '#add'}/>
       </svg>

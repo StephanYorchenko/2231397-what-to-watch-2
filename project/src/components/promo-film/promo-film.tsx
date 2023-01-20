@@ -12,7 +12,7 @@ export const PromoFilm = () => {
     return <Loader />;
   }
 
-  const { posterImage, releaseDate, name, genre, previewImage, id } = promoFilm;
+  const { posterImage, released, name, genre, previewImage, id } = promoFilm;
   return (
     <>
       <div className="film-card__bg">
@@ -29,7 +29,7 @@ export const PromoFilm = () => {
             <h2 className="film-card__title">{name}</h2>
             <p className="film-card__meta">
               <span className="film-card__genre">{genre}</span>
-              <span className="film-card__year">{releaseDate}</span>
+              <span className="film-card__year">{released}</span>
             </p>
 
             <div className="film-card__buttons">

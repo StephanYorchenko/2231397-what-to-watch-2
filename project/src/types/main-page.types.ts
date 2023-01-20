@@ -2,7 +2,7 @@ export type Movie = {
   id: string;
   name: string;
   genre: Genre;
-  releaseDate: string;
+  released: string;
   posterImage: string;
   previewImage: string;
   description: string;
@@ -10,8 +10,8 @@ export type Movie = {
   ratingDescription?: RatingDescription;
   votesCount: string;
   director: string;
-  actors: string[];
-  duration: string;
+  starring: string[];
+  runTime: string;
   previewVideoLink: string;
   videoLink: string;
   isFavourite: boolean;

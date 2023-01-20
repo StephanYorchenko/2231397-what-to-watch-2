@@ -46,9 +46,11 @@ export const checkAuthAction = createAsyncThunk<void, undefined, {
   'checkAuth',
   async (_arg, {dispatch, extra: api}) => {
     dispatch(changeAuthStatus(AuthStatus.PENDING));
-    const result =
-      await api.get(APIRoute.Login).then(() => AuthStatus.AUTHORIZED).catch(() => AuthStatus.UNAUTHORIZED);
-    dispatch(changeAuthStatus(result));
+    const { user, status } = await api.get<User>(APIRoute.Login)
+      .then(({data}) => ({user: data, status: AuthStatus.AUTHORIZED}))
+      .catch(() => ({user: null, status: AuthStatus.UNAUTHORIZED}));
+    dispatch(changeAuthStatus(status));
+    dispatch(setUser(user));
   },
 );
 

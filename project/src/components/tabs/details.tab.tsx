@@ -4,7 +4,7 @@ import { TabContentProps as Props } from './tabs-map';
 export const Details = (props: Props) => {
   const {
     movie: {
-      director, actors, duration, genre, releaseDate
+      director, starring, runTime, genre, released
     }
   } = props;
 
@@ -18,7 +18,7 @@ export const Details = (props: Props) => {
         <p className="film-card__details-item">
           <strong className="film-card__details-name">Starring</strong>
           <span>
-            {actors?.map((actor) => <Fragment key={actor}>{actor}, <br/> </Fragment>)}
+            {starring?.map((actor) => <Fragment key={actor}>{actor}, <br/> </Fragment>)}
           </span>
         </p>
       </div>
@@ -26,7 +26,7 @@ export const Details = (props: Props) => {
       <div className="film-card__text-col">
         <p className="film-card__details-item">
           <strong className="film-card__details-name">Run Time</strong>
-          <span className="film-card__details-value">{duration}</span>
+          <span className="film-card__details-value">{runTime}</span>
         </p>
         <p className="film-card__details-item">
           <strong className="film-card__details-name">Genre</strong>
@@ -34,7 +34,7 @@ export const Details = (props: Props) => {
         </p>
         <p className="film-card__details-item">
           <strong className="film-card__details-name">Released</strong>
-          <span className="film-card__details-value">{releaseDate}</span>
+          <span className="film-card__details-value">{released}</span>
         </p>
       </div>
     </div>

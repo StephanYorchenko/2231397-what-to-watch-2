@@ -1,4 +1,4 @@
-import { ChangeEvent, FC, useCallback, useState } from 'react';
+import {ChangeEvent, FC, useCallback, useMemo, useState} from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getMovieLink } from '../../utils/movie';
 import { postMovieReview } from '../../store/api.requests';
@@ -21,12 +21,16 @@ const AddReview: FC<Props> = (props) => {
     setRating(Number(e.target.value));
   };
 
+  const isSubmitEnabled = useMemo(() => (
+    reviewText && reviewText.length >= 50 && reviewText.length <= 400 && rating
+  ), [reviewText, rating]);
+
   const handleSubmit = useCallback(() => {
-    if (reviewText && rating) {
+    if (isSubmitEnabled) {
       postMovieReview(movieId, { comment: reviewText, rating })
         .then(() => navigate(getMovieLink(movieId)));
     }
-  }, [movieId, reviewText, rating, navigate]);
+  }, [movieId, reviewText, rating, navigate, isSubmitEnabled]);
 
   return (
     <form
@@ -52,9 +56,14 @@ const AddReview: FC<Props> = (props) => {
 
       <div className="add-review__text">
         <textarea className="add-review__textarea" name="review-text" id="review-text" placeholder="Review text" value={reviewText} onChange={handleTextChange}/>
-        <div className="add-review__submit">
-          <button className="add-review__btn" type="submit">Post</button>
-        </div>
+        {
+          isSubmitEnabled &&
+          <div className="add-review__submit">
+            <button className="add-review__btn" type="submit">
+              Post
+            </button>
+          </div>
+        }
       </div>
     </form>
   );

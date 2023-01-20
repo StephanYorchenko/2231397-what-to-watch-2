@@ -10,6 +10,7 @@ import { Movie } from '../../types/main-page.types';
 import { Loader } from '../../components/loader/loader';
 import { getMovie, getSimilarMovies } from '../../store/api.requests';
 import { AddToList } from '../../components/add-to-list/add-to-list';
+import { Logo } from '../../components/logo/logo';
 
 
 const MoviePage = () => {
@@ -50,13 +51,7 @@ const MoviePage = () => {
           <h1 className="visually-hidden">WTW</h1>
 
           <header className="page-header film-card__head">
-            <div className="logo">
-              <a href="/" className="logo__link">
-                <span className="logo__letter logo__letter--1">W</span>
-                <span className="logo__letter logo__letter--2">T</span>
-                <span className="logo__letter logo__letter--3">W</span>
-              </a>
-            </div>
+            <Logo />
 
             <UserBlock />
           </header>
@@ -66,7 +61,7 @@ const MoviePage = () => {
               <h2 className="film-card__title">{currentMovie.name}</h2>
               <p className="film-card__meta">
                 <span className="film-card__genre">{currentMovie.genre}</span>
-                <span className="film-card__year">{currentMovie.releaseDate}</span>
+                <span className="film-card__year">{currentMovie.released}</span>
               </p>
 
               <div className="film-card__buttons">

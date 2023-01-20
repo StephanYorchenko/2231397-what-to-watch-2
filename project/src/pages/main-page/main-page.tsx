@@ -4,11 +4,10 @@ import { useAppSelector } from '../../hooks/store.hooks';
 import GenresPicker from '../../components/genre-picker/genre-picker';
 import { GENRE_ARRAY, PAGINATION_STEP } from './const';
 import { Genre } from '../../types/main-page.types';
-import { Link } from 'react-router-dom';
-import { ROUTES } from '../../app-routes.const';
 import { UserBlock } from '../../components/user-block/user-block';
 import NotFoundPage from '../not-found-page/not-found-page';
 import { PromoFilm } from '../../components/promo-film/promo-film';
+import {Logo} from '../../components/logo/logo';
 
 const MainPage = () => {
   const { movies: allMovies, activeGenre } = useAppSelector((state) => state);
@@ -16,7 +15,7 @@ const MainPage = () => {
 
   const resetPagination = () => setPaginationCursor(PAGINATION_STEP);
   const loadAdditionalItems = () => setPaginationCursor(
-    (v) => Math.max(v + PAGINATION_STEP, allMovies.length)
+    (v) => Math.min(v + PAGINATION_STEP, allMovies.length)
   );
 
   const movies = useMemo(() =>
@@ -70,13 +69,7 @@ const MainPage = () => {
         <h1 className="visually-hidden">WTW</h1>
 
         <header className="page-header film-card__head">
-          <div className="logo">
-            <a href={'/'} className="logo__link">
-              <span className="logo__letter logo__letter--1">W</span>
-              <span className="logo__letter logo__letter--2">T</span>
-              <span className="logo__letter logo__letter--3">W</span>
-            </a>
-          </div>
+          <Logo />
 
           <UserBlock />
         </header>
@@ -98,13 +91,7 @@ const MainPage = () => {
         </section>
 
         <footer className="page-footer">
-          <div className="logo">
-            <Link to={ROUTES.MAIN} className="logo__link logo__link--light">
-              <span className="logo__letter logo__letter--1">W</span>
-              <span className="logo__letter logo__letter--2">T</span>
-              <span className="logo__letter logo__letter--3">W</span>
-            </Link>
-          </div>
+          <Logo />
 
           <div className="copyright">
             <p>© 2019 What to watch Ltd.</p>

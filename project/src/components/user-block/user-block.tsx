@@ -1,8 +1,8 @@
-import { FC } from 'react';
-import { useAppDispatch, useAppSelector } from '../../hooks/store.hooks';
-import { ROUTES } from '../../app-routes.const';
-import { Link, useNavigate } from 'react-router-dom';
-import { logoutAction } from '../../store/api-actions';
+import {FC} from 'react';
+import {useAppDispatch, useAppSelector} from '../../hooks/store.hooks';
+import {ROUTES} from '../../app-routes.const';
+import {Link, useNavigate} from 'react-router-dom';
+import {AuthStatus, logoutAction} from '../../store/api-actions';
 
 
 export const UserBlock: FC = () => {
@@ -16,11 +16,13 @@ export const UserBlock: FC = () => {
 
   return (
     <ul className="user-block">
-      {authorizationStatus ? (
+      {authorizationStatus !== AuthStatus.UNAUTHORIZED ? (
         <>
           <li className="user-block__item">
             <div className="user-block__avatar">
-              <img src={user?.avatarUrl} alt="User avatar" width="63" height="63"/>
+              <Link to={ROUTES.MYLIST}>
+                <img src={user?.avatarUrl} alt="User avatar" width="63" height="63"/>
+              </Link>
             </div>
           </li>
           <li className="user-block__item">

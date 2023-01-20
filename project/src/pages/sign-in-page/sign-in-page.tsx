@@ -1,14 +1,16 @@
-import { Link, useNavigate } from 'react-router-dom';
-import { ChangeEvent, useState } from 'react';
-import { useAppDispatch } from '../../hooks/store.hooks';
-import { loginAction } from '../../store/api-actions';
-import { ROUTES } from '../../app-routes.const';
+import {Link, useNavigate} from 'react-router-dom';
+import {ChangeEvent, useEffect, useState} from 'react';
+import {useAppDispatch, useAppSelector} from '../../hooks/store.hooks';
+import {AuthStatus, loginAction} from '../../store/api-actions';
+import {ROUTES} from '../../app-routes.const';
+import {Logo} from '../../components/logo/logo';
 
 const SignInPage = () => {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const { authorizationStatus } = useAppSelector((state) => state);
 
   const handleEmailChange = (event: ChangeEvent<HTMLInputElement>) => {
     setEmail(event.target.value);
@@ -23,6 +25,12 @@ const SignInPage = () => {
       dispatch(loginAction({ email, password })).then(() => navigate(ROUTES.MYLIST));
     }
   };
+
+  useEffect(() => {
+    if (authorizationStatus === AuthStatus.AUTHORIZED){
+      navigate(ROUTES.MAIN);
+    }
+  },[authorizationStatus, navigate]);
 
   return (
     <>
@@ -109,11 +117,7 @@ const SignInPage = () => {
 
         <footer className="page-footer">
           <div className="logo">
-            <Link to={ROUTES.MAIN} className="logo__link logo__link--light">
-              <span className="logo__letter logo__letter--1">W</span>
-              <span className="logo__letter logo__letter--2">T</span>
-              <span className="logo__letter logo__letter--3">W</span>
-            </Link>
+            <Logo />
           </div>
 
           <div className="copyright">
